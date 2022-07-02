@@ -1,5 +1,5 @@
 import bcrypt
-from flask import Flask, Response, jsonify, request, render_template, redirect, url_for
+from flask import Flask, Response, jsonify, request
 from flask_pymongo import PyMongo
 from bson import ObjectId, json_util
 
@@ -161,7 +161,7 @@ def delete_book(id):
 
 @app.route("/books/<id>", methods=["PUT"])
 def update_book(id):
-    book = mongo.db.books.find_one({"_id": ObjectId(id)})
+    mongo.db.books.find_one({"_id": ObjectId(id)})
     title = request.json["title"]
     description = request.json["description"]
     owner = request.json["owner"]
