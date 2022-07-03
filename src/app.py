@@ -39,7 +39,7 @@ def create_user():
         
         return response, 201
     else:
-        return not_found()
+        return bad_request()
     
 @app.route("/users/", methods=["GET"])
 def get_users():
@@ -96,7 +96,7 @@ def update_user(id):
         
         return response, 201
     else:
-        return not_found()
+        return bad_request()
 
 @app.errorhandler(404)
 def not_found(error=None):
@@ -106,6 +106,16 @@ def not_found(error=None):
     }) 
     
     response.status_code = 404
+    return response
+
+@app.errorhandler(400)
+def bad_request(error=None):
+    response = jsonify({
+        'status': 400,
+        'message': 'Bad Request: ' + request.url
+    }) 
+    
+    response.status_code = 400
     return response
         
 @app.route("/books/", methods=["POST"])
@@ -136,7 +146,7 @@ def create_book():
 
         return response, 201
     else:
-        return not_found()
+        return bad_request()
 
 @app.route("/books/", methods=["GET"])
 def get_books():
@@ -189,8 +199,7 @@ def update_book(id):
         
         return response, 201
     else:
-        return not_found()
-    
+        return bad_request()
 
 if __name__ == '__main__':
     app.run(debug=True)
